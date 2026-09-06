@@ -2,8 +2,7 @@ node_modules/
 dist/
 .cache/
 .env
+.git/
 temp/*
-!temp/.gitkeep
 output/*
-!output/.gitkeep
 *.luau.bytecode

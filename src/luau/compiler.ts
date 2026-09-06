@@ -1,7 +1,7 @@
 import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { constants } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { spawn } from "node:child_process";
 import { LuauCompilationError, LuauToolingError } from "./errors.js";
 
@@ -17,15 +17,13 @@ interface ProcessResult {
 }
 
 const COMPILER_TIMEOUT_MS = 30_000;
+const DEFAULT_LINUX_COMPILER = resolve(process.cwd(), ".cache", "luau", "bin", "luau-compile");
+const DEFAULT_WINDOWS_COMPILER = resolve(process.cwd(), "tools", "luau", "luau-compile.exe");
 
 export function getLuauCompilerPath(): string {
   const configuredPath = process.env.LUAU_COMPILER?.trim();
-  if (!configuredPath) {
-    throw new LuauToolingError(
-      "Official Luau compiler is not configured. Set LUAU_COMPILER to the absolute path of luau-compile (for example, C:\\tools\\luau\\build\\Release\\luau-compile.exe).",
-    );
-  }
-  return configuredPath;
+  if (configuredPath) return configuredPath;
+  return process.platform === "win32" ? DEFAULT_WINDOWS_COMPILER : DEFAULT_LINUX_COMPILER;
 }
 
 export async function assertLuauCompilerAvailable(): Promise<string> {

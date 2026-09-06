@@ -16,12 +16,12 @@ temp/ output/          Reserved runtime folders (ignored except .gitkeep)
 ## Requirements and install
 
 - Node.js 20 or newer
-- An official `luau-compile` executable built from [luau-lang/luau](https://github.com/luau-lang/luau)
+- An official `luau-compile` executable built from [luau-lang/luau](https://github.com/luau-lang/luau), or Docker for Railway deployment
 - A Discord application/bot with the `applications.commands` scope
 
 Run `npm install`, copy `.env.example` to `.env`, and set `DISCORD_TOKEN` and `CLIENT_ID`. `GUILD_ID` is optional: when supplied the command is registered only in that development guild; otherwise it is registered globally. Set `DISCORD_STATUS_WEBHOOK_URL` only if you want a second, webhook-based status embed after each successful artifact. `RUBIS_API_URL` is optional and defaults to `https://api.rubis.app/v2`.
 
-`LUAU_COMPILER` must be an absolute executable path, such as `C:\\tools\\luau\\build\\Release\\luau-compile.exe` on Windows. BIG R fails clearly if it is absent or invalid; it does not substitute a TypeScript parser or fake bytecode compiler.
+`LUAU_COMPILER` is optional. Windows uses `tools/luau/luau-compile.exe` by default; Railway builds the official Linux compiler during the Docker image build. Set `LUAU_COMPILER` only to override those defaults.
 
 ## Run
 
@@ -32,6 +32,8 @@ npm run build
 npm start
 npm test
 ```
+
+Railway uses the included `Dockerfile`. Add `DISCORD_TOKEN` and `CLIENT_ID` as Railway variables; no compiler variable or uploaded Linux binary is required.
 
 On startup the bot registers `/obfuscate`. Provide either a file with any filename or the `code` option (maximum 1 MB). Replies are public. The command downloads a file when needed, validates the source with `luau-compile --null --only-parse`, runs the pipeline, revalidates it, captures `luau-compile --binary` output, and sends the bytecode artifact back. Each completed artifact increments `data/stats.json` and the response displays the total in a simple `luau` code block. An optional webhook gets the same refreshed embed.
 

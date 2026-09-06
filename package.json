@@ -6,7 +6,8 @@
   "description": "Discord orchestration for conservative Luau source protection and official Luau compilation.",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build:compiler": "node tools/build-luau.mjs",
+    "build": "npm run build:compiler && tsc -p tsconfig.json",
     "start": "node dist/src/index.js",
     "test": "npm run build && node --env-file-if-exists=.env --test dist/test/integration.test.js"
   },

@@ -11,7 +11,7 @@ async function main(): Promise<void> {
   const config = { token: required("DISCORD_TOKEN"), clientId: required("CLIENT_ID"), guildId: process.env.GUILD_ID?.trim() || undefined };
   await registerCommands(config);
   const client = createBotClient();
-  client.once("ready", () => console.log(`BIG R is online as ${client.user?.tag ?? "Discord bot"}.`));
+  client.once("clientReady", () => console.log(`BIG R is online as ${client.user?.tag ?? "Discord bot"}.`));
   await client.login(config.token);
 }
 
