@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+temp/*
+!temp/.gitkeep
+output/*
+!output/.gitkeep
+*.luau.bytecode
