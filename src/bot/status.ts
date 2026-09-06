@@ -4,6 +4,9 @@ export interface ObfuscationStatus {
   fileName: string;
   count: number;
   integrityHash: string;
+  rubisRawUrl: string;
+  rubisViewUrl: string;
+  loadstring: string;
 }
 
 export function createObfuscationEmbed(status: ObfuscationStatus): EmbedBuilder {
@@ -11,7 +14,12 @@ export function createObfuscationEmbed(status: ObfuscationStatus): EmbedBuilder 
     .setColor(0x2b2d31)
     .setTitle("BIG R")
     .setDescription("```luau\n-- Luau artifact created\n-- File: " + status.fileName + "\n-- Total obfuscations: " + status.count + "\n```")
-    .addFields({ name: "SHA-256", value: "`" + status.integrityHash + "`" })
+    .addFields(
+      { name: "SHA-256", value: "`" + status.integrityHash + "`" },
+      { name: "Rubis raw URL", value: status.rubisRawUrl },
+      { name: "Rubis view", value: status.rubisViewUrl },
+      { name: "Loadstring", value: "```js\n" + status.loadstring + "\n```" },
+    )
     .setFooter({ text: "BIG R status refreshes after each successful artifact." })
     .setTimestamp();
 }
