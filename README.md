@@ -19,9 +19,9 @@ temp/ output/          Reserved runtime folders (ignored except .gitkeep)
 - An official `luau-compile` executable built from [luau-lang/luau](https://github.com/luau-lang/luau)
 - A Discord application/bot with the `applications.commands` scope
 
-Run `npm install`, copy `.env.example` to `.env`, and set `DISCORD_TOKEN`, `CLIENT_ID`, and `LUAU_COMPILER`. `GUILD_ID` is optional: when supplied the command is registered only in that development guild; otherwise it is registered globally. Set `DISCORD_STATUS_WEBHOOK_URL` only if you want a second, webhook-based status embed after each successful artifact. `RUBIS_API_URL` is optional and defaults to `https://api.rubis.app/v2`.
+Run `npm install`, copy `.env.example` to `.env`, and set `DISCORD_TOKEN` and `CLIENT_ID`. `GUILD_ID` is optional: when supplied the command is registered only in that development guild; otherwise it is registered globally. Set `DISCORD_STATUS_WEBHOOK_URL` only if you want a second, webhook-based status embed after each successful artifact. `RUBIS_API_URL` is optional and defaults to `https://api.rubis.app/v2`.
 
-`LUAU_COMPILER` must be an absolute executable path, such as `C:\\tools\\luau\\build\\Release\\luau-compile.exe` on Windows. BIG R intentionally fails clearly if it is absent or invalid; it never substitutes a TypeScript parser or fake bytecode compiler.
+`LUAU_COMPILER` must be an absolute executable path, such as `C:\\tools\\luau\\build\\Release\\luau-compile.exe` on Windows. BIG R fails clearly if it is absent or invalid; it does not substitute a TypeScript parser or fake bytecode compiler.
 
 ## Run
 
