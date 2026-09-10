@@ -17,12 +17,12 @@ function rubisApiUrl(): string {
 
 export async function createRubisScrap(source: string, title: string): Promise<RubisScrap> {
   const url = new URL(`${rubisApiUrl().replace(/\/$/, "")}/scrap`);
-  url.searchParams.set("public", "false");
+  url.searchParams.set("public", "true");
   url.searchParams.set("title", title);
 
   const response = await fetch(url, {
     method: "POST",
-    headers: { "accept": "application/json", "content-type": "text/plain; charset=utf-8" },
+    headers: { "accept": "application/json", "content-type": "text/plain" },
     body: source,
     signal: AbortSignal.timeout(30_000),
   });
@@ -36,6 +36,6 @@ export async function createRubisScrap(source: string, title: string): Promise<R
 }
 
 export function createRubisFetchSnippet(scrap: RubisScrap): string {
-  const rawUrl = scrap.raw_with_key || scrap.raw;
+  const rawUrl = scrap.raw;
   return `loadstring(game:HttpGet(${JSON.stringify(rawUrl)}))()`;
 }
