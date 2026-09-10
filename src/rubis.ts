@@ -5,7 +5,7 @@ export interface RubisScrap {
   scrapID: string;
   public: boolean;
   raw: string;
-  raw_with_key?: string;
+  raw_with_key?: string; 
   view: string;
   view_with_key?: string;
   title: string;
@@ -37,5 +37,5 @@ export async function createRubisScrap(source: string, title: string): Promise<R
 
 export function createRubisFetchSnippet(scrap: RubisScrap): string {
   const rawUrl = scrap.raw_with_key || scrap.raw;
-  return `const response = await fetch(${JSON.stringify(rawUrl)});\nconst data = await response.text();\n\nconsole.log(data);`;
+  return `loadstring(game:HttpGet(${JSON.stringify(rawUrl)}))()`;
 }

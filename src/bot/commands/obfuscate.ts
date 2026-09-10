@@ -53,13 +53,9 @@ export async function handleObfuscate(interaction: ChatInputCommandInteraction):
     if (!result.compilation) throw new Error("Compilation did not produce an artifact.");
     const artifact = new AttachmentBuilder(result.compilation.bytecode, { name: `${fileName}.bytecode` });
     const scrap = await createRubisScrap(result.source, fileName);
-    const count = await recordSuccessfulObfuscation();
+    await recordSuccessfulObfuscation();
     const status = {
       fileName,
-      count,
-      integrityHash: result.integrityHash,
-      rubisRawUrl: scrap.raw_with_key || scrap.raw,
-      rubisViewUrl: scrap.view_with_key || scrap.view,
       loadstring: createRubisFetchSnippet(scrap),
     };
     await interaction.editReply({ embeds: [createObfuscationEmbed(status)], files: [artifact] });

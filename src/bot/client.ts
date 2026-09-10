@@ -13,7 +13,9 @@ export async function registerCommands(config: BotConfig): Promise<void> {
 export function createBotClient(): Client {
   const client = new Client({ intents: [GatewayIntentBits.Guilds] });
   client.on("interactionCreate", async (interaction) => {
-    if (interaction.isChatInputCommand() && interaction.commandName === "obfuscate") await handleObfuscate(interaction);
+    if (interaction.isChatInputCommand() && interaction.commandName === "obfuscate") {
+      await handleObfuscate(interaction).catch((error: unknown) => console.error("Could not handle Discord interaction:", error));
+    }
   });
   return client;
 }
