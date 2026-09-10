@@ -26,7 +26,10 @@ export async function createRubisScrap(source: string, title: string): Promise<R
     body: source,
     signal: AbortSignal.timeout(30_000),
   });
-  if (!response.ok) throw new Error(`Rubis upload failed (${response.status}).`);
+  if (!response.ok) {
+    const details = (await response.text()).trim().slice(0, 500);
+    throw new Error(`Rubis upload failed (${response.status})${details ? `: ${details}` : "."}`);
+  }
 
   const result = await response.json() as Partial<RubisScrap>;
   if (!result.success || !result.scrapID || !result.raw || !result.view) {
